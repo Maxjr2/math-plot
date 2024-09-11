@@ -82,7 +82,7 @@ def find_best_applicant(applicants, first_x):
 
 # Example usage
 applicants = create_applicants(20)
-first_x = 5  # Adjust this value to change the number of scores used to calculate the median
+first_x = 3  # Adjust this value to change the number of scores used to calculate the median
 best_applicant_index = find_best_applicant(applicants, first_x)
 display_graph(applicants, picked_applicant_index=best_applicant_index, first_x=first_x, mode='gui')  # For GUI output
 # display_graph(applicants, picked_applicant_index=best_applicant_index, first_x=first_x, mode='cli')  # For CLI output
