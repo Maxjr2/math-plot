@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 from asciimatics.screen import Screen
 
 def create_applicants(num_applicants):
@@ -15,7 +16,7 @@ def create_applicants(num_applicants):
     
     return applicants
 
-def display_graph(screen, applicants, picked_applicant_index, first_x):
+def display_graph_cli(screen, applicants, picked_applicant_index, first_x):
     max_value = max(applicants)
     screen.clear()
     
@@ -38,6 +39,40 @@ def display_graph(screen, applicants, picked_applicant_index, first_x):
     screen.refresh()
     screen.wait_for_input(10)
 
+def display_graph_gui(applicants, picked_applicant_index, first_x):
+    plt.figure(figsize=(10, 6))
+    
+    # Plot all applicants
+    plt.plot(applicants, color='blue', label='Applicants')
+    
+    # Highlight the highest score in green
+    max_index = applicants.index(max(applicants))
+    plt.plot(max_index, applicants[max_index], 'go', label='Highest Score')
+    
+    # Highlight the picked applicant in red
+    plt.plot(picked_applicant_index, applicants[picked_applicant_index], 'ro', label='Picked Applicant')
+    
+    # Highlight the first x applicants in lighter gray
+    plt.plot(range(first_x), applicants[:first_x], color='lightgray', label='First X Applicants')
+    
+    # Draw a line at the median of the first x applicants
+    median_value = sorted(applicants[:first_x])[first_x // 2]
+    plt.axhline(y=median_value, color='gray', linestyle='--', label='Median of First X')
+    
+    plt.ylabel('Applicant Score')
+    plt.xlabel('Applicant Number')
+    plt.legend()
+    plt.show()
+
+def display_graph(applicants, picked_applicant_index, first_x, mode='gui'):
+    if mode == 'cli':
+        Screen.wrapper(display_graph_cli, arguments=[applicants, picked_applicant_index, first_x])
+    elif mode == 'gui':
+        display_graph_gui(applicants, picked_applicant_index, first_x)
+    else:
+        raise ValueError("Invalid mode. Choose 'cli' or 'gui'.")
+
 # Example usage
 applicants = create_applicants(20)
-Screen.wrapper(display_graph, arguments=[applicants, 10, 5])
+display_graph(applicants, picked_applicant_index=10, first_x=5, mode='cli')  # For CLI output
+# display_graph(applicants, picked_applicant_index=10, first_x=5, mode='gui')  # For GUI output
