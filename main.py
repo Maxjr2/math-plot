@@ -62,7 +62,8 @@ def display_graph_gui(applicants, picked_applicant_index, first_x):
     plt.ylabel('Applicant Score')
     plt.xlabel('Applicant Number')
     plt.legend()
-    plt.show()
+    plt.savefig('applicants_plot.png')
+    print("Plot saved as 'applicants_plot.png'")
 
 def display_graph(applicants, picked_applicant_index, first_x, mode='gui'):
     if mode == 'cli':
@@ -74,5 +75,5 @@ def display_graph(applicants, picked_applicant_index, first_x, mode='gui'):
 
 # Example usage
 applicants = create_applicants(20)
-display_graph(applicants, picked_applicant_index=10, first_x=5, mode='cli')  # For CLI output
-# display_graph(applicants, picked_applicant_index=10, first_x=5, mode='gui')  # For GUI output
+#display_graph(applicants, picked_applicant_index=10, first_x=5, mode='cli')  # For CLI output
+display_graph(applicants, picked_applicant_index=10, first_x=5, mode='gui')  # For GUI output
