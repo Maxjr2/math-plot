@@ -57,7 +57,7 @@ def display_graph_gui(applicants, picked_applicant_index, first_x):
     
     # Draw a line at the median of the first x applicants
     median_value = sorted(applicants[:first_x])[first_x // 2]
-    plt.axhline(y=median_value, color='gray', linestyle='--', label='Median of First X')
+    plt.plot([0, first_x-1], [median_value, median_value], color='gray', linestyle='--', label='Median of First X')
     
     plt.ylabel('Applicant Score')
     plt.xlabel('Applicant Number')
@@ -73,7 +73,16 @@ def display_graph(applicants, picked_applicant_index, first_x, mode='gui'):
     else:
         raise ValueError("Invalid mode. Choose 'cli' or 'gui'.")
 
+def find_best_applicant(applicants, first_x):
+    best_so_far = max(applicants[:first_x])
+    for i in range(first_x, len(applicants)):
+        if applicants[i] > best_so_far:
+            return i
+    return -1  # If no better applicant is found
+
 # Example usage
 applicants = create_applicants(20)
-#display_graph(applicants, picked_applicant_index=10, first_x=5, mode='cli')  # For CLI output
-display_graph(applicants, picked_applicant_index=10, first_x=5, mode='gui')  # For GUI output
+first_x = 5  # Adjust this value to change the number of scores used to calculate the median
+best_applicant_index = find_best_applicant(applicants, first_x)
+display_graph(applicants, picked_applicant_index=best_applicant_index, first_x=first_x, mode='gui')  # For GUI output
+# display_graph(applicants, picked_applicant_index=best_applicant_index, first_x=first_x, mode='cli')  # For CLI output
